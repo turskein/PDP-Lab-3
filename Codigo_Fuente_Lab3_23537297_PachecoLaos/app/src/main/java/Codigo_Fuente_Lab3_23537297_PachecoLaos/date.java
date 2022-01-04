@@ -11,16 +11,16 @@ public class date {
         this.year = year;
     }
     
-    int getday(){
+    int getDay(){
         return this.day;
     }
-    int getmonth(){
+    int getMonth(){
         return this.month;
     }
-    int getyear(){
+    int getYear(){
         return this.year;
     }
     String toStr(){
-        return String.format("%d-%d-%d", this.getday(), this.getmonth(), this.getyear());
+        return String.format("%d-%d-%d", this.getDay(), this.getMonth(), this.getYear());
     }
 }

@@ -11,22 +11,22 @@ public class version {
         this.maked = maked;
     }
     
-    String getcontent(){
+    String getContent(){
         return this.content;
     }
-    int getid(){
+    int getId(){
         return this.id;
     }
     
-    date getdate(){
+    date getDate(){
         return this.maked;
     }
     
     String toStr(){
         return String.format("Contenido: %s\nid: %d,\ngenerado: %s",
-                    this.getcontent(),
-                    this.getid(),
-                    this.getdate().toStr()
+                    this.getContent(),
+                    this.getId(),
+                    this.getDate().toStr()
                 );
     }
     

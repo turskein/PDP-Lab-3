@@ -20,32 +20,32 @@ public class doc {
         this.versions.add(new version(content, 0,maked));
     }
     
-    String getitle(){
+    String geTitle(){
         return this.title;
     }
     
-    date getmaked(){
+    date getMaked(){
         return this.maked;
     }
     
-    String getowner(){
+    String getOwner(){
         return this.owner;
     }
     
-    int getid(){
+    int getId(){
         return this.id;
     }
     
-    ArrayList getversions(){
+    ArrayList getVersions(){
         return this.versions;
     }
     
-    ArrayList getaccesses(){
+    ArrayList getAccesses(){
         return this.accesses;
     }
     
     boolean isOwner(String username){
-        return this.getowner().equals(username);
+        return this.getOwner().equals(username);
     }
     
     void addVersion(version newversion){
@@ -54,8 +54,8 @@ public class doc {
     
     void addAccess(access newaccess){
         for(int i = 0; i < this.accesses.size(); i++){
-            if(this.accesses.get(i).sameUsername(newaccess.getusername())){
-                this.accesses.get(i).setpermissions(newaccess.getpermissions());
+            if(this.accesses.get(i).sameUsername(newaccess.getUsername())){
+                this.accesses.get(i).setPermissions(newaccess.getPermissions());
                 return;
             }
         }
@@ -92,26 +92,24 @@ public class doc {
         }
         
         if(this.isOwner(username)){
-            return String.format(
-                    "Titulo: %s\nTipo de acceso: propietario\nFecha de creacion: %s\n====Versiones====%s\n====Accesos====\n%s\n",
-                    this.getitle(),
-                    this.getmaked().toStr(),
+            return String.format("Titulo: %s\nTipo de acceso: propietario\nFecha de creacion: %s\n====Versiones====%s\n====Accesos====\n%s\n",
+                    this.geTitle(),
+                    this.getMaked().toStr(),
                     blockversions,
                     blockaccesses
                     );
         }else if(this.canWhat(username,"R")){
             return String.format("Titulo: %s\nFecha de creacion: %s\n====Contenido====%s\n====Tipo de acceso====\n%s\n",
-            this.getitle(),
-            this.getmaked().toStr(),
+            this.geTitle(),
+            this.getMaked().toStr(),
             this.getLastVersion().toStr(),
             this.getSomeAccess(username).toStr()
                     );
         }else if(username.equals("")){
-            return String.format(
-                    "Titulo: %s\nPropietario:%s\nFecha de creacion: %s\n====Versiones====%s\n====Accesos====\n%s\n",
-                    this.getitle(),
-                    this.getowner(),
-                    this.getmaked().toStr(),
+            return String.format("Titulo: %s\nPropietario:%s\nFecha de creacion: %s\n====Versiones====%s\n====Accesos====\n%s\n",
+                    this.geTitle(),
+                    this.getOwner(),
+                    this.getMaked().toStr(),
                     blockversions,
                     blockaccesses
                     );

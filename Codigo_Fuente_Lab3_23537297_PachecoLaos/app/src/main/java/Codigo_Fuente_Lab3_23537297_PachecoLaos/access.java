@@ -10,15 +10,15 @@ public class access {
         this.username = username;
         this.permissions = permissions;
     }
-    String getusername(){
+    String getUsername(){
         return this.username;
     }
     
-    ArrayList getpermissions(){
+    ArrayList getPermissions(){
         return this.permissions;
     }
     
-    void setpermissions(ArrayList newpermissions){
+    void setPermissions(ArrayList newpermissions){
         this.permissions = newpermissions;
     }
     
@@ -29,7 +29,7 @@ public class access {
         return false;
     }
     boolean sameUsername(String username){
-        return this.getusername().equals(username);
+        return this.getUsername().equals(username);
     }
     
     String toStr(){
@@ -52,7 +52,7 @@ public class access {
                     permissionsStr.concat("-Comentar");
             }
         }
-        return String.format("username: %s\nTipos de permiso: %s",this.getusername(),permissionsStr);
+        return String.format("username: %s\nTipos de permiso: %s",this.getUsername(),permissionsStr);
         
         
     }
