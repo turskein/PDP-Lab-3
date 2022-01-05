@@ -3,8 +3,8 @@ package Codigo_Fuente_Lab3_23537297_PachecoLaos;
 import java.util.ArrayList;
 
 public class access {
-    String username;
-    String permission;
+    private String username;
+    private String permission;
     
     access(String username, String permission){
         this.username = username;
@@ -23,7 +23,17 @@ public class access {
     }
     
     boolean canWhat(String permission){
-        return this.getPermission().equals(permission);
+        if(permission.equals('W')){
+            return this.getPermission().equals('W');
+        }else if(permission.equals('R')){
+            return  this.getPermission().equals('R') ||
+                    this.getPermission().equals('W') ||
+                    this.getPermission().equals('C');
+        }else if(permission.equals('C')){
+            return  this.getPermission().equals('W') ||
+                    this.getPermission().equals('C');
+        }
+        
     }
     boolean sameUsername(String username){
         return this.getUsername().equals(username);

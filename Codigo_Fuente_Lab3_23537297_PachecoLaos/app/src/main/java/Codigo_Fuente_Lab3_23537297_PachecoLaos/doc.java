@@ -36,11 +36,11 @@ public class doc {
         return this.id;
     }
     
-    ArrayList getVersions(){
+    ArrayList<version> getVersions(){
         return this.versions;
     }
     
-    ArrayList getAccesses(){
+    ArrayList<access> getAccesses(){
         return this.accesses;
     }
     
@@ -53,6 +53,23 @@ public class doc {
                 this.getLastVersion().getContent()+newcontenido,
                 this.getVersions().size()
         ));
+        this.text = this.getLastVersion().getContent();
+    }
+    
+    void restoreVersion(int id){
+        this.versions.add(this.getVersions().get(id));
+        this.text = this.getLastVersion().getContent();
+    }
+    
+    void revokeAccess(){
+        this.accesses = new ArrayList<access>();
+    }
+    
+    boolean existText(String word){
+        for(int i = 0; i < this.getVersions().size(); i++){
+            if(this.getVersions().get(i).existText(word)) return true;
+        }
+        return false;
     }
     
     void addAccess(String username, String permiss){

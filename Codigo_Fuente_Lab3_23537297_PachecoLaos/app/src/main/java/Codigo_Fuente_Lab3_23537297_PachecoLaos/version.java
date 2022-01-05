@@ -16,6 +16,10 @@ public class version {
         return this.id;
     }
     
+    boolean existText(String word){
+        return this.content.contains(word);
+    }
+    
     String toStr(){
         return String.format("Contenido: %s\nid: %d",
                     this.getContent(),

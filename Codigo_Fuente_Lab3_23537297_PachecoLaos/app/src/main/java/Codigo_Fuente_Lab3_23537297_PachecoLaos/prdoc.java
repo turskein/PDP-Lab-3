@@ -83,6 +83,39 @@ public class prdoc {
         return false;
     }
     
+    boolean restoreVersion(int idDoc, int idVersion){
+        if(this.getSomeDoc(idDoc).isOwner(this.getLogged())){
+            this.getSomeDoc(idDoc).restoreVersion(idVersion);
+            return true;
+        }
+        return false;
+    }
+    
+    boolean revokeAccess(int idDoc){
+        if(this.getSomeDoc(idDoc).isOwner(this.getLogged())){
+            this.getSomeDoc(idDoc).revokeAccess();
+            return true;
+        }
+        return false;
+    }
+    
+    String search(String word){
+        String docs = "";
+        int i;
+        for(i = 0; i < this.cantDocs(); i++){
+            if(this.getSomeDoc(i).canWhat(this.getLogged(),"R")){
+                docs = docs + String.format("%d",i);
+            }
+        }
+        while(i < this.cantDocs()){
+            if(this.getSomeDoc(i).canWhat(this.getLogged(),"R")){
+                docs = docs + String.format("-%d",i);
+            }
+            i ++;
+        }
+        return docs;
+    }
+    
     boolean existUsername(String username){
         for(int i = 0; i < this.cantUsers(); i++){
             if(this.getUsers().get(i).sameUsername(username))
