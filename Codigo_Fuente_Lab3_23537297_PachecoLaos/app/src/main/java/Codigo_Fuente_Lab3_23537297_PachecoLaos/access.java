@@ -4,55 +4,45 @@ import java.util.ArrayList;
 
 public class access {
     String username;
-    ArrayList<String> permissions = new ArrayList<>();
+    String permission;
     
-    access(String username, ArrayList permissions){
+    access(String username, String permission){
         this.username = username;
-        this.permissions = permissions;
+        this.permission = permission;
     }
     String getUsername(){
         return this.username;
     }
     
-    ArrayList getPermissions(){
-        return this.permissions;
+    String getPermission(){
+        return this.permission;
     }
     
-    void setPermissions(ArrayList newpermissions){
-        this.permissions = newpermissions;
+    void setPermission(String newpermission){
+        this.permission = newpermission;
     }
     
     boolean canWhat(String permission){
-        for(int i = 0; i < this.permissions.size(); i ++){
-            if(this.permissions.get(i).equals(permission)) return true;
-        }
-        return false;
+        return this.getPermission().equals(permission);
     }
     boolean sameUsername(String username){
         return this.getUsername().equals(username);
     }
+    boolean samePermission(String permiss){
+        return this.getPermission().equals(permiss);
+    }
     
     String toStr(){
-    String permissionsStr = "";
-        switch(this.permissions.get(0)){
+    String permissionStr = "";
+        switch(this.getPermission()){
             case "R":
-                    permissionsStr = "Lectura";
+                    permissionStr = "Lectura";
             case "W":
-                    permissionsStr = "Escritura";
+                    permissionStr = "Escritura";
             case "C":
-                    permissionsStr = "Comentar";
+                    permissionStr = "Comentar";
         }
-        for(int i = 1; i < this.permissions.size(); i ++){
-            switch(this.permissions.get(i)){
-            case "R":
-                    permissionsStr.concat("-Lectura");
-            case "W":
-                    permissionsStr.concat("-Escritura");
-            case "C":
-                    permissionsStr.concat("-Comentar");
-            }
-        }
-        return String.format("username: %s\nTipos de permiso: %s",this.getUsername(),permissionsStr);
+        return String.format("username: %s\nTipo de permiso: %s",this.getUsername(),permissionStr);
         
         
     }

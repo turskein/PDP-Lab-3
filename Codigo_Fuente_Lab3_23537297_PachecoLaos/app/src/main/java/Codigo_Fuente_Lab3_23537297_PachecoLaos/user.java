@@ -36,9 +36,8 @@ public class user {
     }
     
     String toStr(){
-        return String.format("Nombre de usuario: %s\nContrasenia: %s\nId: %d\nFecha de registro: %s",
+        return String.format("Nombre de usuario: %s\nId: %d\nFecha de registro: %s",
                 this.getUsername(),
-                this.getPassword(),
                 this.getId(),
                 this.getRegister().toStr()
                 );

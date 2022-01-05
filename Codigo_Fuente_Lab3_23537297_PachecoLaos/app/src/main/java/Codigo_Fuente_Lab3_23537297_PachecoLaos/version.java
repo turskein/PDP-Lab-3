@@ -3,12 +3,10 @@ package Codigo_Fuente_Lab3_23537297_PachecoLaos;
 public class version {
     private String content;
     private int id;
-    private date maked;
     
-    version(String content, int id, date maked){
+    version(String content, int id){
         this.content = content;
         this.id = id;
-        this.maked = maked;
     }
     
     String getContent(){
@@ -18,15 +16,10 @@ public class version {
         return this.id;
     }
     
-    date getDate(){
-        return this.maked;
-    }
-    
     String toStr(){
-        return String.format("Contenido: %s\nid: %d,\ngenerado: %s",
+        return String.format("Contenido: %s\nid: %d",
                     this.getContent(),
-                    this.getId(),
-                    this.getDate().toStr()
+                    this.getId()
                 );
     }
     

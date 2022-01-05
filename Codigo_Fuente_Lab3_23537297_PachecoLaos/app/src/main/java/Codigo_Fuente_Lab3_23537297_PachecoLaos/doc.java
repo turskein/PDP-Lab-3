@@ -17,7 +17,7 @@ public class doc {
         this.owner = owner;
         this.text = content;
         this.id = id;
-        this.versions.add(new version(content, 0,maked));
+        this.versions.add(new version(content, 0));
     }
     
     String geTitle(){
@@ -48,21 +48,27 @@ public class doc {
         return this.getOwner().equals(username);
     }
     
-    void addVersion(version newversion){
-        this.versions.add(newversion);
+    void addContent(String newcontenido){
+        this.getVersions().add(new version(
+                this.getLastVersion().getContent()+newcontenido,
+                this.getVersions().size()
+        ));
     }
     
-    void addAccess(access newaccess){
+    void addAccess(String username, String permiss){
         for(int i = 0; i < this.accesses.size(); i++){
-            if(this.accesses.get(i).sameUsername(newaccess.getUsername())){
-                this.accesses.get(i).setPermissions(newaccess.getPermissions());
+            if(this.accesses.get(i).sameUsername(username)){
+                if(!this.accesses.get(i).samePermission(permiss)){
+                    this.accesses.get(i).setPermission(permiss);
+                }
                 return;
             }
         }
-        this.accesses.add(newaccess);
+        this.accesses.add(new access(username, permiss));
     }
     
     boolean canWhat(String username, String permission){
+        if(this.isOwner(username)) return true;
         for(int i = 0; i < this.accesses.size(); i ++){
             if(this.accesses.get(i).sameUsername(username)) 
                 return this.accesses.get(i).canWhat(permission);
@@ -98,7 +104,7 @@ public class doc {
                     blockversions,
                     blockaccesses
                     );
-        }else if(this.canWhat(username,"R")){
+        }else if(this.canWhat(username,"R")|| this.canWhat(username,"W") || this.canWhat(username,"C")){
             return String.format("Titulo: %s\nFecha de creacion: %s\n====Contenido====%s\n====Tipo de acceso====\n%s\n",
             this.geTitle(),
             this.getMaked().toStr(),
