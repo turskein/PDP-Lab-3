@@ -142,7 +142,7 @@ public class prdoc {
             String blockUsers = "";
             
             for(int i = 0; i < this.getUsers().size(); i++){
-                blockUsers = blockUsers + this.getUsers().get(i).toStr();
+                blockUsers = blockUsers + this.getUsers().get(i).toStr()+"\n";
             }
             String blockDocs = "";
             for(int i = 0; i < this.getDocs().size(); i++){

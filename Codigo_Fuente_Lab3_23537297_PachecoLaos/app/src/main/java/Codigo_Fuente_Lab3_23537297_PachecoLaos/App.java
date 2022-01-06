@@ -12,12 +12,38 @@ public class App {
         for(int i = 0; i < cantidad; i++)
         print("\n");
     }
+    public static void testGeneration(ArrayList<prdoc> plataformas){
+        plataformas.add(new prdoc("gDocs", new date(12,12,2021)));
+        /*
+        Generacion de testeos dentro de gDocs
+        */
+        //creacion de 4 usuarios 
+        plataformas.get(0).addUser("Sebastian","123456", new date(06,01,2022));
+        plataformas.get(0).addUser("elcangri","asdfgh", new date(06,01,2022));
+        plataformas.get(0).addUser("elsopaipilla","123456", new date(06,01,2022));
+        plataformas.get(0).addUser("Pedro","abcdef", new date(06,01,2022));
+
+        
+        //creacion de documentos
+        plataformas.get(0).log("Sebastian");
+        plataformas.get(0).addDoc("Lista de deseo", new date(12,12,2021), "Esta sera la lista de deseos para mi anio 2022");
+        plataformas.get(0).addDoc("Informe de IDI 4 (TDI)", new date(12,12,2021), "Integrantes: Sebastian, Pedro y el cangri (xd)");
+        plataformas.get(0).shareDoc("elcangri,Pedro".split(","),"W",1);
+        plataformas.get(0).log("Pedro");
+        plataformas.get(0).addDoc("Poemas", new date(20,1,2022), "Rosas azuels...");
+        plataformas.get(0).addDoc("Lista de compra", new date(20,1,2022), "Cebollas 3, tallarines 4, ...");
+        plataformas.get(0).log("elcangri");
+        plataformas.get(0).addDoc("Cumpleanos de la deyanira", new date(25,12,2021), "Tengo q compraleh algo a deyianira, si o no");
+        plataformas.get(0).shareDoc("Sebastian,elsopaipilla".split(","), "C", 3);
+        
+        plataformas.add(new prdoc("ParadigmaDocs", new date(12,12,2021)));
+    }
     
     public static int choosePlataform   (Scanner lectura, ArrayList<prdoc> plataformas){
         int i;
         print("Ingrese la plataforma que desea utilizar(ingrese el numero y luego presione enter): ");
         for(i = 0; i < plataformas.size();i++){
-            print(String.format("%d. %s\n",i+1,plataformas.get(i).getName()));
+            print(String.format("%d. %s",i+1,plataformas.get(i).getName()));
         }
         print(String.format("%d. Crear plataforma\n",i+1));
         String opcion = lectura.nextLine();
@@ -34,12 +60,13 @@ public class App {
             plataformas.add(newprdoc);
             return plataformas.size()-1;
         }else{
-            return Integer.parseInt(opcion);
+            return Integer.parseInt(opcion)-1;
         }
     }
     public static void authentification (Scanner lectura, prdoc plataforma){
         boolean logueado = true;
         String opcionlogueo = "0";
+        print(String.format("=== %s ===",plataforma.getName()));
         while(logueado){
             print("Escoja su opcion:\n1.Registrarse\n2.Loguearse");
             opcionlogueo = lectura.next();
@@ -165,9 +192,10 @@ public class App {
         Scanner lectura = new Scanner(System.in).useDelimiter("\n");
         int prdocele = 0;
         boolean eleccionplataforma = true;
+        ArrayList<prdoc> plataformas = new ArrayList<>();
+        testGeneration(plataformas);
         while(eleccionplataforma){
             //generacion de array de plataformas
-            ArrayList<prdoc> plataformas = new ArrayList<>();
 
             prdocele = choosePlataform(lectura, plataformas);
             

@@ -33,7 +33,7 @@ public class access {
             return  this.getPermission().equals('W') ||
                     this.getPermission().equals('C');
         }
-        
+        return false;
     }
     boolean sameUsername(String username){
         return this.getUsername().equals(username);
@@ -44,14 +44,10 @@ public class access {
     
     String toStr(){
     String permissionStr = "";
-        switch(this.getPermission()){
-            case "R":
-                    permissionStr = "Lectura";
-            case "W":
-                    permissionStr = "Escritura";
-            case "C":
-                    permissionStr = "Comentar";
-        }
+        if(this.getPermission().equals("R")) permissionStr = "Lectura";
+        if(this.getPermission().equals("W")) permissionStr = "Escritura";
+        if(this.getPermission().equals("C")) permissionStr = "Comentar";
+
         return String.format("username: %s\nTipo de permiso: %s",this.getUsername(),permissionStr);
         
         

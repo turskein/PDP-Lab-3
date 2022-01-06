@@ -129,7 +129,7 @@ public class doc {
             this.getSomeAccess(username).toStr()
                     );
         }else if(username.equals("")){
-            return String.format("Titulo: %s\nPropietario:%s\nFecha de creacion: %s\n====Versiones====%s\n====Accesos====\n%s\n",
+            return String.format("########## Titulo: %s##########\nPropietario:%s\nFecha de creacion: %s\n====Versiones====\n%s\n====Accesos====\n%s\n",
                     this.geTitle(),
                     this.getOwner(),
                     this.getMaked().toStr(),
