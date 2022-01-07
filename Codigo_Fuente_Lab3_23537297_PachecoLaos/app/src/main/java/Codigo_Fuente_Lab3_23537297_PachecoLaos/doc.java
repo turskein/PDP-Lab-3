@@ -36,12 +36,27 @@ public class doc {
         return this.id;
     }
     
+    String getText(){
+        return this.text;
+    }
+    
     ArrayList<version> getVersions(){
         return this.versions;
     }
     
     ArrayList<access> getAccesses(){
         return this.accesses;
+    }
+    
+    version getLastVersion(){
+        return this.versions.get(this.versions.size()-1);
+    }
+    access getSomeAccess(String username){
+        for(int i = 0; i < this.accesses.size(); i++){
+            if(this.accesses.get(i).sameUsername(username))
+                return this.accesses.get(i);
+        }
+        return this.accesses.get(0);
     }
     
     boolean isOwner(String username){
@@ -84,6 +99,12 @@ public class doc {
         this.accesses.add(new access(username, permiss));
     }
     
+    boolean addComment(String textSelected, String comment){
+        if(this.getLastVersion().addComment(textSelected, comment))
+            return true;
+        return false;
+    }
+    
     boolean canWhat(String username, String permission){
         if(this.isOwner(username)) return true;
         for(int i = 0; i < this.accesses.size(); i ++){
@@ -91,17 +112,6 @@ public class doc {
                 return this.accesses.get(i).canWhat(permission);
         }
         return false;
-    }
-    
-    version getLastVersion(){
-        return this.versions.get(this.versions.size()-1);
-    }
-    access getSomeAccess(String username){
-        for(int i = 0; i < this.accesses.size(); i++){
-            if(this.accesses.get(i).sameUsername(username))
-                return this.accesses.get(i);
-        }
-        return this.accesses.get(0);
     }
     
     String toStr(String username){
@@ -115,24 +125,26 @@ public class doc {
         }
         
         if(this.isOwner(username)){
-            return String.format("Titulo: %s\nTipo de acceso: propietario\nFecha de creacion: %s\n====Versiones====%s\n====Accesos====\n%s\n",
+            return String.format("########## Titulo: %s##########\nTipo de acceso: propietario\nFecha de creacion: %s\nContenido: %s\n====Versiones====\n%s====Accesos====\n%s\n",
                     this.geTitle(),
                     this.getMaked().toStr(),
+                    this.getText(),
                     blockversions,
                     blockaccesses
                     );
-        }else if(this.canWhat(username,"R")|| this.canWhat(username,"W") || this.canWhat(username,"C")){
-            return String.format("Titulo: %s\nFecha de creacion: %s\n====Contenido====%s\n====Tipo de acceso====\n%s\n",
+        }else if(this.canWhat(username,"R")){
+            return String.format("########## Titulo: %s##########\nFecha de creacion: %s\n====Contenido====%s\n====Tipo de acceso====\n%s\n",
             this.geTitle(),
             this.getMaked().toStr(),
-            this.getLastVersion().toStr(),
+            this.getText(),
             this.getSomeAccess(username).toStr()
                     );
         }else if(username.equals("")){
-            return String.format("########## Titulo: %s##########\nPropietario:%s\nFecha de creacion: %s\n====Versiones====\n%s\n====Accesos====\n%s\n",
+            return String.format("########## Titulo: %s##########\nPropietario:%s\nFecha de creacion: %s\nContenido: %s\n====Versiones====\n%s\n====Accesos====\n%s",
                     this.geTitle(),
                     this.getOwner(),
                     this.getMaked().toStr(),
+                    this.getText(),
                     blockversions,
                     blockaccesses
                     );

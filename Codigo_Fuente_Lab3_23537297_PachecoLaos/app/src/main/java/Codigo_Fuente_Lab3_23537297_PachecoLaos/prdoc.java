@@ -116,6 +116,13 @@ public class prdoc {
         return docs;
     }
     
+    boolean addComment(int id,String textSelected, String comment){
+        if(this.getSomeDoc(id).canWhat(this.getLogged(),"C"))
+            return this.getSomeDoc(id).addComment(textSelected,comment);
+        return false;
+    }
+    
+    
     boolean existUsername(String username){
         for(int i = 0; i < this.cantUsers(); i++){
             if(this.getUsers().get(i).sameUsername(username))
@@ -124,14 +131,15 @@ public class prdoc {
         return false;
     }
     
-    void log(String username){
-        this.logged = username;
-    }
-    
     boolean authenticateUser(String username, String password){
         for(int i = 0; i < this.cantUsers(); i++){
             if(this.getUsers().get(i).sameUsername(username)){
-                return this.getUsers().get(i).samePassword(password);
+                if(this.getUsers().get(i).samePassword(password)){
+                    this.logged = username;
+                    return true;
+                }else{
+                    return false;
+                }
             }
         }
         return false;
@@ -141,7 +149,7 @@ public class prdoc {
         if(this.getLogged().equals("")){
             String blockUsers = "";
             
-            for(int i = 0; i < this.getUsers().size(); i++){
+            for(int i = 1; i < this.getUsers().size(); i++){
                 blockUsers = blockUsers + this.getUsers().get(i).toStr()+"\n";
             }
             String blockDocs = "";
