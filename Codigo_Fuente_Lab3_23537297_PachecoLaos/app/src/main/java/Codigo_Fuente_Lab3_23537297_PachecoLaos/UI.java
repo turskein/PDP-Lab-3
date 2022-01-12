@@ -1,0 +1,366 @@
+package Codigo_Fuente_Lab3_23537297_PachecoLaos;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+import modelos.date;
+import modelos.editor;
+
+/**
+ *
+ * @author Alexitico
+ */
+public interface UI {
+    Scanner lectura = new Scanner(System.in).useDelimiter("\n");
+    public static void print(String things){
+        System.out.println(things);
+    }
+    public static void testGenerator(ArrayList<editor> plataformas){
+        plataformas.add(new editor("ParadigmaDocs", new date(12,12,2021)));
+        /*
+        Generacion de testeos dentro de ParadigmaDocs
+        */
+        //creacion de 4 usuarios 
+        plataformas.get(0).addUser("Sebastian","123456", new date(06,01,2022));
+        plataformas.get(0).addUser("elcangri","asdfgh", new date(06,01,2022));
+        plataformas.get(0).addUser("elsopaipilla","123456", new date(06,01,2022));
+        plataformas.get(0).addUser("Pedro","abcdef", new date(06,01,2022));
+
+        
+        //creacion de documentos
+        plataformas.get(0).authenticateUser("Sebastian","123456");
+        /*id 0*/plataformas.get(0).addDoc("Lista de deseo", new date(12,12,2021), "Esta sera la lista de deseos para mi anio 2022");
+        /*id 1*/plataformas.get(0).addDoc("Informe de IDI 4 (TDI)", new date(12,12,2021), "Integrantes: Sebastian, Pedro y el cangri (xd)");
+        
+        plataformas.get(0).authenticateUser("Pedro","asdfgh");
+        /*id 2*/plataformas.get(0).addDoc("Poemas", new date(20,1,2022), "Rosas azuels...");
+        /*id 3*/plataformas.get(0).addDoc("Lista de compra", new date(20,1,2022), "Cebollas 3, tallarines 4, ...");
+        
+        plataformas.get(0).authenticateUser("elcangri","asdfgh");
+        /*id 4*/plataformas.get(0).addDoc("Cumpleanos de la deyanira", new date(25,12,2021), "Tengo q compraleh algo a deyianira, si o no");
+        plataformas.get(0).shareDoc("Sebastian,elsopaipilla".split(","), "C", 3);
+        
+        //Compartir Docs
+        plataformas.get(0).authenticateUser("Sebastian","123456");
+        plataformas.get(0).shareDoc("elcangri,Pedro".split(","),"W",1);
+        
+        plataformas.get(0).authenticateUser("Pedro","asdfgh");
+        plataformas.get(0).shareDoc("Sebastian,Pedro".split(","),"C",2);
+        
+        plataformas.get(0).authenticateUser("elcangri","asdfgh");
+        plataformas.get(0).shareDoc("elsopaipilla,Pedro".split(","),"R",4);
+        
+            //Intenta compartir un documento y no es realizado porque no es propietario
+        plataformas.get(0).authenticateUser("elsopaipilla","123456");
+        plataformas.get(0).shareDoc("elcangri,Sebastian".split(","),"R",4);
+        
+        //Agregar contenido a los documentos
+        plataformas.get(0).authenticateUser("Sebastian","123456");
+        plataformas.get(0).addContentToDoc(0,"Espero lograr pasar todos mis ramos, sobre todo paradigmadocs de programacion");
+        plataformas.get(0).addContentToDoc(1,"Se ha demostrado en varias ocasiones que el Sistema de Transporte Público Metropolitano (STPM) no es un medio seguro");
+        
+        plataformas.get(0).authenticateUser("Pedro","asdfgh");
+        plataformas.get(0).addContentToDoc(1,", especialmente para las mujeres en relación al tema del acoso.");
+        
+        plataformas.get(0).authenticateUser("elcangri","asdfgh");
+        plataformas.get(0).addContentToDoc(1,"De acuerdo a las cifras difundidas por la agrupación “Mujeres en Movimiento'' y el Banco");
+        plataformas.get(0).addContentToDoc(1,"para el Desarrollo de Latinoamérica (CAF), 9");
+        
+        /*
+        Generacion de testeos dentro de googleDocs, pero quien quiere google docs
+        si tiene ParadigmaDocs?
+        */
+        plataformas.add(new editor("GoogleDocs", new date(12,12,2021)));
+    }
+    
+    public static int choosePlataform   (ArrayList<editor> plataformas){
+        int i;
+        print("Ingrese la plataforma que desea utilizar(ingrese el numero y luego presione enter): ");
+        for(i = 0; i < plataformas.size();i++){
+            print(String.format("%d. %s",i+1,plataformas.get(i).getName()));
+        }
+        print(String.format("%d. Crear plataforma",i+1));
+        print("0. Salir del programa");
+        String opcion = lectura.nextLine();
+        if(opcion.equals(String.format("%d",i+1))){
+            print("Ingrese el nombre de la nueva plataforma: ");
+            String nombre = lectura.next();
+            print("Ingrese la fecha separado por guiones de la forma dia-mes-agnio: ");
+            String[] fechacreacion = lectura.next().split("-");
+            int dia = Integer.parseInt(fechacreacion[0]);
+            int mes = Integer.parseInt(fechacreacion[1]);
+            int agnio = Integer.parseInt(fechacreacion[2]);
+            date prdocmaked = new date(dia,mes,agnio);
+            editor newprdoc = new editor(nombre,prdocmaked);
+            plataformas.add(newprdoc);
+            return plataformas.size()-1;
+        }else{
+            return Integer.parseInt(opcion)-1;
+        }
+    }
+    public static boolean authentification (editor plataforma){
+        boolean logueado = false;
+        String opcionlogueo = "0";
+        print(String.format("=== %s ===",plataforma.getName()));
+        while(!logueado){
+            print("Escoja su opcion:\n1. Registrarse\n2. Loguearse\n0. Salir");
+            opcionlogueo = lectura.next();
+            if(opcionlogueo.equals("1")){
+                print("Ingrese su nombre de usuario:");
+                String username = lectura.next();
+                while(plataforma.existUsername(username)){
+                    print("Tal nombre de usuario ya existe\n Ingrese otro nombre de usuario:");
+                    username = lectura.next();
+                }
+                print("Ingrese su contrasenia:");
+                String password = lectura.next();
+                print("Ingrese la fecha separado por guiones de la forma dia-mes-agnio: ");
+                String[] fechacreacion = lectura.next().split("-");
+                int dia = Integer.parseInt(fechacreacion[0]);
+                int mes = Integer.parseInt(fechacreacion[1]);
+                int agnio = Integer.parseInt(fechacreacion[2]);
+                date fechausuario = new date(dia,mes,agnio);
+                plataforma.addUser(username, password, fechausuario);
+                logueado = plataforma.authenticateUser(username,password);
+            }else if(opcionlogueo.equals("2")){
+                print("Ingrese su nombre de usuario:");
+                String username = lectura.next();
+                print("Ingrese su contrasenia:");
+                String password = lectura.next();
+                if(plataforma.authenticateUser(username,password)){
+                    logueado = true;
+                }else{
+                    print("No ha logrado loguearse correctamente\n");
+                }
+            }else if(opcionlogueo.equals("0")){
+                return false;
+            }
+        }
+        return false;
+    }
+    public static void create           (editor plataforma){
+        print("=== Crear nuevo documento ===");
+        print("Ingrese el nombre de su nuevo documento: ");
+        String titulo = lectura.next();
+        print("Ingrese la fecha de creacion: ");
+        String[] fecha = lectura.next().split("-");
+        print("Ingrese el contenido de su documento: ");
+        String contenido = lectura.next();
+        plataforma.addDoc(titulo, 
+                new date(Integer.parseInt(fecha[0]),
+                        Integer.parseInt(fecha[1]),
+                        Integer.parseInt(fecha[2])), 
+                contenido);
+    }
+    public static void share            (editor plataforma){
+        print("=== Compartir documento ===");
+        print("Ingrese el id del documento que desea compartir: ");
+        int id = Integer.parseInt(lectura.next());
+        print("Ingrese los nombres de los usuario con los que desea compartir el documento separado por comas:");
+        String[] names = lectura.next().split(",");
+        print("Ingrese la letra del permiso que quiere compartir, siendo W-Escritura, R-Lectura, C-Comentar");
+        String permiso = lectura.next();
+        if(plataforma.shareDoc(names, permiso, id)){
+            print("El documento a sido compartido exitosamente");
+            return;
+        }
+        print("No se es dueño del documento que se quiere compartir.\n. . .");
+    }
+    public static void add              (editor plataforma){
+        print("=== Agregar Contenido ===");
+        print("Ingrese el id del documento en el que desea agregar contenido: ");
+        int id = Integer.parseInt(lectura.next());
+        print("Ingrese el contenido que desea agregar");
+        String contenido = lectura.next();
+        if(plataforma.addContentToDoc(id, contenido)){
+            print("Se agrego el contenido al documento como se esperaba");
+            return;
+        }
+        print("No tienes permisos para agregar contenido a tal documento\n. . .");
+    }
+    public static void rollback         (editor plataforma){
+        print("=== Restaurar version ===");
+        print("Ingrese el id del documento en el que restaurara la version: ");
+        int idDoc = Integer.parseInt(lectura.next());
+        print("Ingrese el id de la version a restaurar: ");
+        int idversion = Integer.parseInt(lectura.next());
+        if(plataforma.restoreVersion(idDoc, idversion)){
+            print("Se restauró la versión como se esperaba.");
+            return;
+        }
+        print("No tienes permisos para realizar tal accion\n. . .");
+        
+    }
+    public static void revokeAccess     (editor plataforma){
+        print("=== Revocar accesos ===");
+        print("Ingrese el id del documento:");
+        int idDoc = Integer.parseInt(lectura.next());
+        if(plataforma.revokeAccess(idDoc)){
+            print("Se revoco los permisos como se esperaba.");
+            return;
+        }
+        print("No tienes permisos para revocar permisos\n. . .");
+    }
+    public static void search           (editor plataforma){
+        print("=== Buscar contenido ===");
+        print("Ingrese la palabra que desea buscar en los documentos:");
+        String word = lectura.next();
+        String docs = plataforma.search(word);
+        if(docs.equals("")){
+            print("Ningun documento encontrado con tal coincidencia");
+        }
+        print(String.format("Los documentos que se encontraro con tal coincidencia son: %s",docs));
+    }
+    public static void comment          (editor plataforma){
+        print("=== Comentar ===");
+        print("Ingrese el id del documento: ");
+        int id = Integer.parseInt(lectura.next());
+        print("Ingrese el texto que desea comentar");
+        String texto = lectura.next();
+        print("Ingrese el comentario que desea realizar");
+        String comentario = lectura.next();
+        if(plataforma.addComment(id,texto,comentario)){
+            print("Se realizo el comentario como se esperaba");
+            return;
+        }
+        print("No se logro realizar el comentario\n . . .");
+    }
+    public static void delete           (editor plataforma){
+        print("=== Eliminar caracteres ===");
+        print("Ingrese el id del documento a afectar: ");
+        int id = Integer.parseInt(lectura.next());
+        print("Ingrese la cantidad de caracteres que desea eliminar(numero entero): ");
+        int numChars = Integer.parseInt(lectura.next());
+        if(plataforma.delete(id,numChars)){
+            print("Se eliminaron los caracteres correcatmente");
+            return;
+        }
+        print("No se logro borrar contenido . . .");
+        
+    }
+    public static void replace          (editor plataforma){
+        print("=== Buscar y Reemplazar ===");
+        print("Ingrese el id del documento a afectar: ");
+        int id = Integer.parseInt(lectura.next());
+        print("Ingrese la cadena de texto a reemplazar: ");
+        String oldChar = lectura.next();
+        print("Ingrese la cadena de reemplazo: ");
+        String newChar = lectura.next();
+        if(plataforma.replace(id,oldChar,newChar)){
+            print("Se reemplazo la cadena correcatmente");
+            return;
+        }
+        print("No se logro reemplazar contenido . . .");
+    }
+    public static void applyStyles     (editor plataforma){
+        print("=== Aplicar Estilos ===");
+        print("Ingrese el id del documento a afectar: ");
+        int id = Integer.parseInt(lectura.next());
+        print("Ingrese la cadena de texto a la que aplicar estilos: ");
+        String oldChar = lectura.next();
+        print("=== Estilos ===\n1. Italic\n2. Bold\n3. Underlined");
+        print("Ingrese los numero de estilos separados por comas: ");
+        String[] estilos = lectura.next().split(",");
+        String newChar = oldChar;
+        for(int i = 0; i < estilos.length; i ++){
+            if(estilos[i].equals("1")){
+                newChar = "#\\i" + newChar + "#\\i";
+            }else if(estilos[i].equals("2")){
+                newChar = "#\\b" + newChar + "#\\b";
+            }else if(estilos[i].equals("3")){
+                newChar = "#\\u" + newChar + "#\\u";
+            }
+        }
+        if(plataforma.replace(id,oldChar,newChar)){
+            print("Se reemplazo la cadena correcatmente");
+            return;
+        }
+        print("No se logro reemplazar contenido . . .");
+    }
+    public static int menu              (editor plataforma){
+        print(String.format("### %s ###\n## Usuario: %s ##\n"+
+                      "Escoja su opcion:\n"+
+                      "1. Crear nuevo documento\n"+
+                      "2. Compartir documento\n" +
+                      "3. Agregar contenido a un documento\n"+
+                      "4. Restaurar version de un documento\n"+
+                      "5. Revocar acceso a un documento\n"+
+                      "6. Buscar en los documentos\n"+
+                      "7. Borrar caracteres en un documento\n"+
+                      "8. Buscar y reemplazar en un documento\n"+
+                      "9. Aplicar estilos en un documento\n"+
+                      "10. Comentar en un documento\n"+
+                      "11. Visualizar documentos\n"+
+                      "12. Cerrar sesión\n"+
+                      "0. Cerrar el programa\n"+
+                      "INTRODUZCA SU OPCION:"
+                      ,plataforma.getName(),plataforma.getLogged()));
+        return Integer.parseInt(lectura.next());
+    }
+    
+    public static void index(){
+        int prdocele = 0;
+        boolean runProgram = true;
+        ArrayList<editor> plataformas = new ArrayList<>();
+        testGenerator(plataformas);
+        
+        while(runProgram && prdocele != -1){
+            prdocele = choosePlataform(plataformas);
+            while(prdocele != -1 && runProgram){
+                runProgram = !authentification(plataformas.get(prdocele));
+                int opcionoperacion = 1;
+                while(opcionoperacion > 0 && opcionoperacion != 12 && prdocele != -1 && runProgram){
+                    opcionoperacion = menu(plataformas.get(prdocele));
+                    if(opcionoperacion == 1){
+                        create(plataformas.get(prdocele));
+                        print("Presione enter para continuar. . .");
+                        lectura.next();
+                    }else if(opcionoperacion == 2){
+                        share(plataformas.get(prdocele));
+                        print("Presione enter para continuar. . .");
+                        lectura.next();
+                    }else if(opcionoperacion == 3){
+                        add(plataformas.get(prdocele));
+                        print("Presione enter para continuar. . .");
+                        lectura.next();
+                    }else if(opcionoperacion == 4){
+                        rollback(plataformas.get(prdocele));
+                        print("Presione enter para continuar. . .");
+                        lectura.next();
+                    }else if(opcionoperacion == 5){
+                        revokeAccess(plataformas.get(prdocele));
+                        print("Presione enter para continuar. . .");
+                        lectura.next();
+                    }else if(opcionoperacion == 6){
+                        search(plataformas.get(prdocele));
+                        print("Presione enter para continuar. . .");
+                        lectura.next();
+                    }else if(opcionoperacion == 7){
+                        delete(plataformas.get(prdocele));
+                        print("Presione enter para continuar. . .");
+                        lectura.next();
+                    }else if(opcionoperacion == 8){
+                        replace(plataformas.get(prdocele));
+                        print("Presione enter para continuar. . .");
+                        lectura.next();
+                    }else if(opcionoperacion == 9){
+                        applyStyles(plataformas.get(prdocele));
+                        print("Presione enter para continuar. . .");
+                        lectura.next();
+                    }else if(opcionoperacion == 10){
+                        comment(plataformas.get(prdocele));
+                        print("Presione enter para continuar. . .");
+                        lectura.next();
+                    }else if(opcionoperacion == 11){
+                        print(plataformas.get(prdocele).toStr());
+                        print("Presione enter para continuar. . .");
+                        lectura.next();
+                    }else if(opcionoperacion == 0){
+                        runProgram = false;
+                    }
+                }
+            } 
+        }
+    }
+}
+
+

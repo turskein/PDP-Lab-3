@@ -1,4 +1,4 @@
-package Codigo_Fuente_Lab3_23537297_PachecoLaos;
+package docs;
 
 import java.util.ArrayList;
 

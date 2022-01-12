@@ -1,41 +1,44 @@
-package Codigo_Fuente_Lab3_23537297_PachecoLaos;
+package modelos;
+
+import modelos.date;
 
 public class user {
-    String username;
-    String password;
-    date register;
-    int id;
+    private String username;
+    private String password;
+    private date register;
+    private static int counterIds = 0;
+    private int id;
     
-    user(String username, String password, int id, date register){
+    public user(String username, String password, date register){
         this.username = username;
         this.password = password;
-        this.id = id;
+        this.id = this.counterIds++;
         this.register = register;
     }
     
-    String getUsername(){
+    public String getUsername(){
         return this.username;
     }
-    String getPassword(){
+    public String getPassword(){
         return this.password;
     }
     
-    int getId(){
+    public int getId(){
         return this.id;
     }
     
-    date getRegister(){
+    public date getRegister(){
         return this.register;
     }
     
-    boolean sameUsername(String anotherUsername){
+    public boolean sameUsername(String anotherUsername){
         return this.getUsername().equals(anotherUsername);
     }
-    boolean samePassword(String anotherPassword){
+    public boolean samePassword(String anotherPassword){
         return this.getPassword().equals(anotherPassword);
     }
     
-    String toStr(){
+    public String toStr(){
         return String.format("Nombre de usuario: %s\nId: %d\nFecha de registro: %s",
                 this.getUsername(),
                 this.getId(),
