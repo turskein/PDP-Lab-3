@@ -10,7 +10,7 @@ import modelos.editor;
  * @author Alexitico
  */
 public interface UI {
-    Scanner lectura = new Scanner(System.in).useDelimiter("\n");
+    static Scanner lectura = new Scanner(System.in).useDelimiter("\n");
     public static void print(String things){
         System.out.println(things);
     }
@@ -83,9 +83,9 @@ public interface UI {
         String opcion = lectura.nextLine();
         if(opcion.equals(String.format("%d",i+1))){
             print("Ingrese el nombre de la nueva plataforma: ");
-            String nombre = lectura.next();
+            String nombre = lectura.nextLine();
             print("Ingrese la fecha separado por guiones de la forma dia-mes-agnio: ");
-            String[] fechacreacion = lectura.next().split("-");
+            String[] fechacreacion = lectura.nextLine().split("-");
             int dia = Integer.parseInt(fechacreacion[0]);
             int mes = Integer.parseInt(fechacreacion[1]);
             int agnio = Integer.parseInt(fechacreacion[2]);
@@ -103,18 +103,18 @@ public interface UI {
         print(String.format("=== %s ===",plataforma.getName()));
         while(!logueado){
             print("Escoja su opcion:\n1. Registrarse\n2. Loguearse\n0. Salir");
-            opcionlogueo = lectura.next();
+            opcionlogueo = lectura.nextLine();
             if(opcionlogueo.equals("1")){
                 print("Ingrese su nombre de usuario:");
-                String username = lectura.next();
+                String username = lectura.nextLine();
                 while(plataforma.existUsername(username)){
                     print("Tal nombre de usuario ya existe\n Ingrese otro nombre de usuario:");
-                    username = lectura.next();
+                    username = lectura.nextLine();
                 }
                 print("Ingrese su contrasenia:");
-                String password = lectura.next();
+                String password = lectura.nextLine();
                 print("Ingrese la fecha separado por guiones de la forma dia-mes-agnio: ");
-                String[] fechacreacion = lectura.next().split("-");
+                String[] fechacreacion = lectura.nextLine().split("-");
                 int dia = Integer.parseInt(fechacreacion[0]);
                 int mes = Integer.parseInt(fechacreacion[1]);
                 int agnio = Integer.parseInt(fechacreacion[2]);
@@ -123,9 +123,9 @@ public interface UI {
                 logueado = plataforma.authenticateUser(username,password);
             }else if(opcionlogueo.equals("2")){
                 print("Ingrese su nombre de usuario:");
-                String username = lectura.next();
+                String username = lectura.nextLine();
                 print("Ingrese su contrasenia:");
-                String password = lectura.next();
+                String password = lectura.nextLine();
                 if(plataforma.authenticateUser(username,password)){
                     logueado = true;
                 }else{
@@ -140,11 +140,11 @@ public interface UI {
     public static void create           (editor plataforma){
         print("=== Crear nuevo documento ===");
         print("Ingrese el nombre de su nuevo documento: ");
-        String titulo = lectura.next();
+        String titulo = lectura.nextLine();
         print("Ingrese la fecha de creacion: ");
-        String[] fecha = lectura.next().split("-");
+        String[] fecha = lectura.nextLine().split("-");
         print("Ingrese el contenido de su documento: ");
-        String contenido = lectura.next();
+        String contenido = lectura.nextLine();
         plataforma.addDoc(titulo, 
                 new date(Integer.parseInt(fecha[0]),
                         Integer.parseInt(fecha[1]),
@@ -154,11 +154,11 @@ public interface UI {
     public static void share            (editor plataforma){
         print("=== Compartir documento ===");
         print("Ingrese el id del documento que desea compartir: ");
-        int id = Integer.parseInt(lectura.next());
+        int id = Integer.parseInt(lectura.nextLine());
         print("Ingrese los nombres de los usuario con los que desea compartir el documento separado por comas:");
-        String[] names = lectura.next().split(",");
+        String[] names = lectura.nextLine().split(",");
         print("Ingrese la letra del permiso que quiere compartir, siendo W-Escritura, R-Lectura, C-Comentar");
-        String permiso = lectura.next();
+        String permiso = lectura.nextLine();
         if(plataforma.shareDoc(names, permiso, id)){
             print("El documento a sido compartido exitosamente");
             return;
@@ -168,9 +168,9 @@ public interface UI {
     public static void add              (editor plataforma){
         print("=== Agregar Contenido ===");
         print("Ingrese el id del documento en el que desea agregar contenido: ");
-        int id = Integer.parseInt(lectura.next());
+        int id = Integer.parseInt(lectura.nextLine());
         print("Ingrese el contenido que desea agregar");
-        String contenido = lectura.next();
+        String contenido = lectura.nextLine();
         if(plataforma.addContentToDoc(id, contenido)){
             print("Se agrego el contenido al documento como se esperaba");
             return;
@@ -180,9 +180,9 @@ public interface UI {
     public static void rollback         (editor plataforma){
         print("=== Restaurar version ===");
         print("Ingrese el id del documento en el que restaurara la version: ");
-        int idDoc = Integer.parseInt(lectura.next());
+        int idDoc = Integer.parseInt(lectura.nextLine());
         print("Ingrese el id de la version a restaurar: ");
-        int idversion = Integer.parseInt(lectura.next());
+        int idversion = Integer.parseInt(lectura.nextLine());
         if(plataforma.restoreVersion(idDoc, idversion)){
             print("Se restauró la versión como se esperaba.");
             return;
@@ -193,7 +193,7 @@ public interface UI {
     public static void revokeAccess     (editor plataforma){
         print("=== Revocar accesos ===");
         print("Ingrese el id del documento:");
-        int idDoc = Integer.parseInt(lectura.next());
+        int idDoc = Integer.parseInt(lectura.nextLine());
         if(plataforma.revokeAccess(idDoc)){
             print("Se revoco los permisos como se esperaba.");
             return;
@@ -203,7 +203,7 @@ public interface UI {
     public static void search           (editor plataforma){
         print("=== Buscar contenido ===");
         print("Ingrese la palabra que desea buscar en los documentos:");
-        String word = lectura.next();
+        String word = lectura.nextLine();
         String docs = plataforma.search(word);
         if(docs.equals("")){
             print("Ningun documento encontrado con tal coincidencia");
@@ -213,11 +213,11 @@ public interface UI {
     public static void comment          (editor plataforma){
         print("=== Comentar ===");
         print("Ingrese el id del documento: ");
-        int id = Integer.parseInt(lectura.next());
+        int id = Integer.parseInt(lectura.nextLine());
         print("Ingrese el texto que desea comentar");
-        String texto = lectura.next();
+        String texto = lectura.nextLine();
         print("Ingrese el comentario que desea realizar");
-        String comentario = lectura.next();
+        String comentario = lectura.nextLine();
         if(plataforma.addComment(id,texto,comentario)){
             print("Se realizo el comentario como se esperaba");
             return;
@@ -227,9 +227,9 @@ public interface UI {
     public static void delete           (editor plataforma){
         print("=== Eliminar caracteres ===");
         print("Ingrese el id del documento a afectar: ");
-        int id = Integer.parseInt(lectura.next());
+        int id = Integer.parseInt(lectura.nextLine());
         print("Ingrese la cantidad de caracteres que desea eliminar(numero entero): ");
-        int numChars = Integer.parseInt(lectura.next());
+        int numChars = Integer.parseInt(lectura.nextLine());
         if(plataforma.delete(id,numChars)){
             print("Se eliminaron los caracteres correcatmente");
             return;
@@ -240,11 +240,11 @@ public interface UI {
     public static void replace          (editor plataforma){
         print("=== Buscar y Reemplazar ===");
         print("Ingrese el id del documento a afectar: ");
-        int id = Integer.parseInt(lectura.next());
+        int id = Integer.parseInt(lectura.nextLine());
         print("Ingrese la cadena de texto a reemplazar: ");
-        String oldChar = lectura.next();
+        String oldChar = lectura.nextLine();
         print("Ingrese la cadena de reemplazo: ");
-        String newChar = lectura.next();
+        String newChar = lectura.nextLine();
         if(plataforma.replace(id,oldChar,newChar)){
             print("Se reemplazo la cadena correcatmente");
             return;
@@ -254,12 +254,12 @@ public interface UI {
     public static void applyStyles     (editor plataforma){
         print("=== Aplicar Estilos ===");
         print("Ingrese el id del documento a afectar: ");
-        int id = Integer.parseInt(lectura.next());
+        int id = Integer.parseInt(lectura.nextLine());
         print("Ingrese la cadena de texto a la que aplicar estilos: ");
-        String oldChar = lectura.next();
+        String oldChar = lectura.nextLine();
         print("=== Estilos ===\n1. Italic\n2. Bold\n3. Underlined");
         print("Ingrese los numero de estilos separados por comas: ");
-        String[] estilos = lectura.next().split(",");
+        String[] estilos = lectura.nextLine().split(",");
         String newChar = oldChar;
         for(int i = 0; i < estilos.length; i ++){
             if(estilos[i].equals("1")){
@@ -294,7 +294,7 @@ public interface UI {
                       "0. Cerrar el programa\n"+
                       "INTRODUZCA SU OPCION:"
                       ,plataforma.getName(),plataforma.getLogged()));
-        return Integer.parseInt(lectura.next());
+        return Integer.parseInt(lectura.nextLine());
     }
     
     public static void index(){
@@ -313,47 +313,47 @@ public interface UI {
                     if(opcionoperacion == 1){
                         create(plataformas.get(prdocele));
                         print("Presione enter para continuar. . .");
-                        lectura.next();
+                        lectura.nextLine();
                     }else if(opcionoperacion == 2){
                         share(plataformas.get(prdocele));
                         print("Presione enter para continuar. . .");
-                        lectura.next();
+                        lectura.nextLine();
                     }else if(opcionoperacion == 3){
                         add(plataformas.get(prdocele));
                         print("Presione enter para continuar. . .");
-                        lectura.next();
+                        lectura.nextLine();
                     }else if(opcionoperacion == 4){
                         rollback(plataformas.get(prdocele));
                         print("Presione enter para continuar. . .");
-                        lectura.next();
+                        lectura.nextLine();
                     }else if(opcionoperacion == 5){
                         revokeAccess(plataformas.get(prdocele));
                         print("Presione enter para continuar. . .");
-                        lectura.next();
+                        lectura.nextLine();
                     }else if(opcionoperacion == 6){
                         search(plataformas.get(prdocele));
                         print("Presione enter para continuar. . .");
-                        lectura.next();
+                        lectura.nextLine();
                     }else if(opcionoperacion == 7){
                         delete(plataformas.get(prdocele));
                         print("Presione enter para continuar. . .");
-                        lectura.next();
+                        lectura.nextLine();
                     }else if(opcionoperacion == 8){
                         replace(plataformas.get(prdocele));
                         print("Presione enter para continuar. . .");
-                        lectura.next();
+                        lectura.nextLine();
                     }else if(opcionoperacion == 9){
                         applyStyles(plataformas.get(prdocele));
                         print("Presione enter para continuar. . .");
-                        lectura.next();
+                        lectura.nextLine();
                     }else if(opcionoperacion == 10){
                         comment(plataformas.get(prdocele));
                         print("Presione enter para continuar. . .");
-                        lectura.next();
+                        lectura.nextLine();
                     }else if(opcionoperacion == 11){
                         print(plataformas.get(prdocele).toStr());
                         print("Presione enter para continuar. . .");
-                        lectura.next();
+                        lectura.nextLine();
                     }else if(opcionoperacion == 0){
                         runProgram = false;
                     }
