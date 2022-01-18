@@ -64,10 +64,45 @@ public interface UI {
         plataformas.get(0).authenticateUser("elcangri","asdfgh");
         plataformas.get(0).addContentToDoc(1,"De acuerdo a las cifras difundidas por la agrupación “Mujeres en Movimiento'' y el Banco");
         plataformas.get(0).addContentToDoc(1,"para el Desarrollo de Latinoamérica (CAF), 9");
+        //Restaurar version de un documento
+        plataformas.get(0).authenticateUser("Sebastian","123456");
+        plataformas.get(0).restoreVersion(0, 0);
+        plataformas.get(0).authenticateUser("Pedro","asdfgh");
+        plataformas.get(0).restoreVersion(0, 0);
+        plataformas.get(0).authenticateUser("elcangri","asdfgh");
+        plataformas.get(0).restoreVersion(1, 1);
+        //Revocar acceso a un documento
+        plataformas.get(0).authenticateUser("Sebastian","123456");
+        plataformas.get(0).revokeAccess(0);
+        plataformas.get(0).authenticateUser("Pedro","asdfgh");
+        plataformas.get(0).revokeAccess(4);
+        plataformas.get(0).authenticateUser("elcangri","asdfgh");
+        plataformas.get(0).revokeAccess(1);
+        // Volver a dar permisos
+        plataformas.get(0).authenticateUser("Sebastian","123456");
+        plataformas.get(0).shareDoc("elcangri,Pedro".split(","),"W",1);
+        
+        plataformas.get(0).authenticateUser("Pedro","asdfgh");
+        plataformas.get(0).shareDoc("Sebastian,Pedro".split(","),"C",2);
+        
+        plataformas.get(0).authenticateUser("elcangri","asdfgh");
+        plataformas.get(0).shareDoc("elsopaipilla,Pedro".split(","),"R",4);
+        // Buscar en los documentos
+        plataformas.get(0).authenticateUser("Sebastian","123456");
+        plataformas.get(0).search("flores");
+        //Borrar y reemplazar en un documento
+        plataformas.get(0).authenticateUser("Sebastian","123456");
+        plataformas.get(0).replace(0, "deseos", "dia del plaatanoo");
+        // Aplicar estilos en un documento
+        //Se define como una funcion que reutiliza otro metodo
+        
+        //Comentar en un documento
+        plataformas.get(0).authenticateUser("Sebastian","123456");
+        plataformas.get(0).addComment(0,"plaatanoo","Pienso que debe mejorar mi vocabulario");
         
         /*
         Generacion de testeos dentro de googleDocs, pero quien quiere google docs
-        si tiene ParadigmaDocs?
+        cuando tiene el poderisisimo ParadigmaDocs?
         */
         plataformas.add(new editor("GoogleDocs", new date(12,12,2021)));
     }
