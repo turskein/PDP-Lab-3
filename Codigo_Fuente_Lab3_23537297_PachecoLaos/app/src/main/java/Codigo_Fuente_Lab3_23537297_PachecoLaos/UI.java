@@ -6,14 +6,19 @@ import modelos.date;
 import modelos.editor;
 
 /**
- *
- * @author Alexitico
+ * Clase que representa toda la interfaz de usuario con el que el usuario interactuara
+ * @author Alex Pacheco Laos
  */
 public interface UI {
+    
     static Scanner lectura = new Scanner(System.in).useDelimiter("\n");
     public static void print(String things){
         System.out.println(things);
     }
+    /**
+     * funcion que genera todos los testeos sobre las plataformas
+     * @param plataformas array de plataformas sobre los cuales aplicar los testeos
+     */
     public static void testGenerator(ArrayList<editor> plataformas){
         plataformas.add(new editor("ParadigmaDocs", new date(12,12,2021)));
         /*
@@ -56,14 +61,14 @@ public interface UI {
         //Agregar contenido a los documentos
         plataformas.get(0).authenticateUser("Sebastian","123456");
         plataformas.get(0).addContentToDoc(0,"Espero lograr pasar todos mis ramos, sobre todo paradigmadocs de programacion");
-        plataformas.get(0).addContentToDoc(1,"Se ha demostrado en varias ocasiones que el Sistema de Transporte Público Metropolitano (STPM) no es un medio seguro");
+        plataformas.get(0).addContentToDoc(1,"Se ha demostrado en varias ocasiones que el Sistema de Transporte Pï¿½blico Metropolitano (STPM) no es un medio seguro");
         
         plataformas.get(0).authenticateUser("Pedro","asdfgh");
-        plataformas.get(0).addContentToDoc(1,", especialmente para las mujeres en relación al tema del acoso.");
+        plataformas.get(0).addContentToDoc(1,", especialmente para las mujeres en relaciï¿½n al tema del acoso.");
         
         plataformas.get(0).authenticateUser("elcangri","asdfgh");
-        plataformas.get(0).addContentToDoc(1,"De acuerdo a las cifras difundidas por la agrupación “Mujeres en Movimiento'' y el Banco");
-        plataformas.get(0).addContentToDoc(1,"para el Desarrollo de Latinoamérica (CAF), 9");
+        plataformas.get(0).addContentToDoc(1,"De acuerdo a las cifras difundidas por la agrupaciï¿½n ï¿½Mujeres en Movimiento'' y el Banco");
+        plataformas.get(0).addContentToDoc(1,"para el Desarrollo de Latinoamï¿½rica (CAF), 9");
         //Restaurar version de un documento
         plataformas.get(0).authenticateUser("Sebastian","123456");
         plataformas.get(0).restoreVersion(0, 0);
@@ -106,8 +111,13 @@ public interface UI {
         */
         plataformas.add(new editor("GoogleDocs", new date(12,12,2021)));
     }
-    
+    /**
+     * funcion que realiza la eleccion de las plataforma a afectar
+     * @param plataformas arraylist de plataformas a afectar
+     * @return numero que representa la posicion dentro del arraylist
+     */
     public static int choosePlataform   (ArrayList<editor> plataformas){
+
         int i;
         print("Ingrese la plataforma que desea utilizar(ingrese el numero y luego presione enter): ");
         for(i = 0; i < plataformas.size();i++){
@@ -132,6 +142,11 @@ public interface UI {
             return Integer.parseInt(opcion)-1;
         }
     }
+    /**
+     * funcion que autentifica las credenciales dentro de la plataforma ingresada
+     * @param plataforma plataforma a afectar
+     * @return boolean que representa la autenticacion dentro de la plataforma
+     */
     public static boolean authentification (editor plataforma){
         boolean logueado = false;
         String opcionlogueo = "0";
@@ -172,6 +187,12 @@ public interface UI {
         }
         return false;
     }
+    
+    /**
+     * funcion que crea un documento dentro de la plataforma seleccionada
+     * 
+     * @param plataforma plataforma a afectar
+     */
     public static void create           (editor plataforma){
         print("=== Crear nuevo documento ===");
         print("Ingrese el nombre de su nuevo documento: ");
@@ -186,6 +207,12 @@ public interface UI {
                         Integer.parseInt(fecha[2])), 
                 contenido);
     }
+    
+    /**
+     * comparte un documento de la plataforma seleccionada
+     * 
+     * @param plataforma plataforma a afectar
+     */
     public static void share            (editor plataforma){
         print("=== Compartir documento ===");
         print("Ingrese el id del documento que desea compartir: ");
@@ -198,8 +225,14 @@ public interface UI {
             print("El documento a sido compartido exitosamente");
             return;
         }
-        print("No se es dueño del documento que se quiere compartir.\n. . .");
+        print("No se es dueï¿½o del documento que se quiere compartir.\n. . .");
     }
+    
+    /**
+     * agrega contenido a un documento de la plataforma
+     * 
+     * @param plataforma plataforma a afectar
+     */
     public static void add              (editor plataforma){
         print("=== Agregar Contenido ===");
         print("Ingrese el id del documento en el que desea agregar contenido: ");
@@ -212,6 +245,12 @@ public interface UI {
         }
         print("No tienes permisos para agregar contenido a tal documento\n. . .");
     }
+    
+    /**
+     * restaruracion de una version en la plataforma
+     * 
+     * @param plataforma plataforma a afectar
+     */
     public static void rollback         (editor plataforma){
         print("=== Restaurar version ===");
         print("Ingrese el id del documento en el que restaurara la version: ");
@@ -219,12 +258,18 @@ public interface UI {
         print("Ingrese el id de la version a restaurar: ");
         int idversion = Integer.parseInt(lectura.nextLine());
         if(plataforma.restoreVersion(idDoc, idversion)){
-            print("Se restauró la versión como se esperaba.");
+            print("Se restaurï¿½ la versiï¿½n como se esperaba.");
             return;
         }
         print("No tienes permisos para realizar tal accion\n. . .");
         
     }
+    
+    /**
+     * revoca los accesos dentro de un plataforma
+     * 
+     * @param plataforma plataforma a afectar
+     */
     public static void revokeAccess     (editor plataforma){
         print("=== Revocar accesos ===");
         print("Ingrese el id del documento:");
@@ -235,6 +280,11 @@ public interface UI {
         }
         print("No tienes permisos para revocar permisos\n. . .");
     }
+    
+    /**
+     * busqueda de informacion dentro de la plataforma
+     * @param plataforma plataforma a afectar
+     */
     public static void search           (editor plataforma){
         print("=== Buscar contenido ===");
         print("Ingrese la palabra que desea buscar en los documentos:");
@@ -245,6 +295,11 @@ public interface UI {
         }
         print(String.format("Los documentos que se encontraro con tal coincidencia son: %s",docs));
     }
+    
+    /**
+     * genera un comentario en un documento en particular
+     * @param plataforma plataforma a afectar
+     */
     public static void comment          (editor plataforma){
         print("=== Comentar ===");
         print("Ingrese el id del documento: ");
@@ -259,6 +314,12 @@ public interface UI {
         }
         print("No se logro realizar el comentario\n . . .");
     }
+    
+    /**
+     * Elimina informacion dentro de un documento en particular
+     * 
+     * @param plataforma plataforma a afectar
+     */
     public static void delete           (editor plataforma){
         print("=== Eliminar caracteres ===");
         print("Ingrese el id del documento a afectar: ");
@@ -272,6 +333,11 @@ public interface UI {
         print("No se logro borrar contenido . . .");
         
     }
+    
+    /**
+     * Reemplaza contenido dentro de un documento en la plataforma
+     * @param plataforma plataforma a afectar
+     */
     public static void replace          (editor plataforma){
         print("=== Buscar y Reemplazar ===");
         print("Ingrese el id del documento a afectar: ");
@@ -286,6 +352,12 @@ public interface UI {
         }
         print("No se logro reemplazar contenido . . .");
     }
+    
+    /**
+     * Aplica estilos en un documento en la plataforma
+     * 
+     * @param plataforma plataforma a afectar
+     */
     public static void applyStyles     (editor plataforma){
         print("=== Aplicar Estilos ===");
         print("Ingrese el id del documento a afectar: ");
@@ -311,6 +383,13 @@ public interface UI {
         }
         print("No se logro reemplazar contenido . . .");
     }
+    
+    /**
+     * Menu de opcioens que eligira el usuario
+     * 
+     * @param plataforma plataforma a afectar
+     * @return entero que representa el numero de la operacion
+     */
     public static int menu              (editor plataforma){
         print(String.format("### %s ###\n## Usuario: %s ##\n"+
                       "Escoja su opcion:\n"+
@@ -325,13 +404,15 @@ public interface UI {
                       "9. Aplicar estilos en un documento\n"+
                       "10. Comentar en un documento\n"+
                       "11. Visualizar documentos\n"+
-                      "12. Cerrar sesión\n"+
+                      "12. Cerrar sesiï¿½n\n"+
                       "0. Cerrar el programa\n"+
                       "INTRODUZCA SU OPCION:"
                       ,plataforma.getName(),plataforma.getLogged()));
         return Integer.parseInt(lectura.nextLine());
     }
-    
+    /**
+     * La ejecucion de todo
+     */
     public static void index(){
         int prdocele = 0;
         boolean runProgram = true;
