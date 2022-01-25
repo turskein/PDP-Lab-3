@@ -29,13 +29,14 @@ public interface UI {
         plataformas.get(0).addUser("elcangri","asdfgh", new date(06,01,2022));
         plataformas.get(0).addUser("elsopaipilla","123456", new date(06,01,2022));
         plataformas.get(0).addUser("Pedro","abcdef", new date(06,01,2022));
+        plataformas.get(0).addUser("Pepa", "ghjkln", new date(06, 01, 2022));
 
         
         //creacion de documentos
         plataformas.get(0).authenticateUser("Sebastian","123456");
         /*id 0*/plataformas.get(0).addDoc("Lista de deseo", new date(12,12,2021), "Esta sera la lista de deseos para mi anio 2022");
         /*id 1*/plataformas.get(0).addDoc("Informe de IDI 4 (TDI)", new date(12,12,2021), "Integrantes: Sebastian, Pedro y el cangri (xd)");
-        
+                
         plataformas.get(0).authenticateUser("Pedro","asdfgh");
         /*id 2*/plataformas.get(0).addDoc("Poemas", new date(20,1,2022), "Rosas azuels...");
         /*id 3*/plataformas.get(0).addDoc("Lista de compra", new date(20,1,2022), "Cebollas 3, tallarines 4, ...");
@@ -104,7 +105,7 @@ public interface UI {
         //Comentar en un documento
         plataformas.get(0).authenticateUser("Sebastian","123456");
         plataformas.get(0).addComment(0,"plaatanoo","Pienso que debe mejorar mi vocabulario");
-        
+        plataformas.get(0).logout();
         /*
         Generacion de testeos dentro de googleDocs, pero quien quiere google docs
         cuando tiene el poderisisimo ParadigmaDocs?
@@ -225,7 +226,7 @@ public interface UI {
             print("El documento a sido compartido exitosamente");
             return;
         }
-        print("No se es due�o del documento que se quiere compartir.\n. . .");
+        print("No se es duenio del documento que se quiere compartir.\n. . .");
     }
     
     /**
@@ -391,6 +392,12 @@ public interface UI {
      * @return entero que representa el numero de la operacion
      */
     public static int menu              (editor plataforma){
+        String opcion = "";
+        if(plataforma.getLogged().equals("")){
+            opcion = "Loguearse";
+        }else{
+            opcion = "Cerrar Sesion";
+        }
         print(String.format("### %s ###\n## Usuario: %s ##\n"+
                       "Escoja su opcion:\n"+
                       "1. Crear nuevo documento\n"+
@@ -404,10 +411,10 @@ public interface UI {
                       "9. Aplicar estilos en un documento\n"+
                       "10. Comentar en un documento\n"+
                       "11. Visualizar documentos\n"+
-                      "12. Cerrar sesi�n\n"+
+                      "12. %s\n"+
                       "0. Cerrar el programa\n"+
                       "INTRODUZCA SU OPCION:"
-                      ,plataforma.getName(),plataforma.getLogged()));
+                      ,plataforma.getName(),plataforma.getLogged(), opcion));
         return Integer.parseInt(lectura.nextLine());
     }
     /**
@@ -421,58 +428,63 @@ public interface UI {
         
         while(runProgram && prdocele != -1){
             prdocele = choosePlataform(plataformas);
-            while(prdocele != -1 && runProgram){
-                runProgram = !authentification(plataformas.get(prdocele));
-                int opcionoperacion = 1;
-                while(opcionoperacion > 0 && opcionoperacion != 12 && prdocele != -1 && runProgram){
-                    opcionoperacion = menu(plataformas.get(prdocele));
-                    if(opcionoperacion == 1){
-                        create(plataformas.get(prdocele));
-                        print("Presione enter para continuar. . .");
-                        lectura.nextLine();
-                    }else if(opcionoperacion == 2){
-                        share(plataformas.get(prdocele));
-                        print("Presione enter para continuar. . .");
-                        lectura.nextLine();
-                    }else if(opcionoperacion == 3){
-                        add(plataformas.get(prdocele));
-                        print("Presione enter para continuar. . .");
-                        lectura.nextLine();
-                    }else if(opcionoperacion == 4){
-                        rollback(plataformas.get(prdocele));
-                        print("Presione enter para continuar. . .");
-                        lectura.nextLine();
-                    }else if(opcionoperacion == 5){
-                        revokeAccess(plataformas.get(prdocele));
-                        print("Presione enter para continuar. . .");
-                        lectura.nextLine();
-                    }else if(opcionoperacion == 6){
-                        search(plataformas.get(prdocele));
-                        print("Presione enter para continuar. . .");
-                        lectura.nextLine();
-                    }else if(opcionoperacion == 7){
-                        delete(plataformas.get(prdocele));
-                        print("Presione enter para continuar. . .");
-                        lectura.nextLine();
-                    }else if(opcionoperacion == 8){
-                        replace(plataformas.get(prdocele));
-                        print("Presione enter para continuar. . .");
-                        lectura.nextLine();
-                    }else if(opcionoperacion == 9){
-                        applyStyles(plataformas.get(prdocele));
-                        print("Presione enter para continuar. . .");
-                        lectura.nextLine();
-                    }else if(opcionoperacion == 10){
-                        comment(plataformas.get(prdocele));
-                        print("Presione enter para continuar. . .");
-                        lectura.nextLine();
-                    }else if(opcionoperacion == 11){
-                        print(plataformas.get(prdocele).toStr());
-                        print("Presione enter para continuar. . .");
-                        lectura.nextLine();
-                    }else if(opcionoperacion == 0){
-                        runProgram = false;
+            int opcionoperacion = 1;
+            while(opcionoperacion > 0 && prdocele != -1){
+                opcionoperacion = menu(plataformas.get(prdocele));
+                if(opcionoperacion == 1){
+                    create(plataformas.get(prdocele));
+                    print("Presione enter para continuar. . .");
+                    lectura.nextLine();
+                }else if(opcionoperacion == 2){
+                    share(plataformas.get(prdocele));
+                    print("Presione enter para continuar. . .");
+                    lectura.nextLine();
+                }else if(opcionoperacion == 3){
+                    add(plataformas.get(prdocele));
+                    print("Presione enter para continuar. . .");
+                    lectura.nextLine();
+                }else if(opcionoperacion == 4){
+                    rollback(plataformas.get(prdocele));
+                    print("Presione enter para continuar. . .");
+                    lectura.nextLine();
+                }else if(opcionoperacion == 5){
+                    revokeAccess(plataformas.get(prdocele));
+                    print("Presione enter para continuar. . .");
+                    lectura.nextLine();
+                }else if(opcionoperacion == 6){
+                    search(plataformas.get(prdocele));
+                    print("Presione enter para continuar. . .");
+                    lectura.nextLine();
+                }else if(opcionoperacion == 7){
+                    delete(plataformas.get(prdocele));
+                    print("Presione enter para continuar. . .");
+                    lectura.nextLine();
+                }else if(opcionoperacion == 8){
+                    replace(plataformas.get(prdocele));
+                    print("Presione enter para continuar. . .");
+                    lectura.nextLine();
+                }else if(opcionoperacion == 9){
+                    applyStyles(plataformas.get(prdocele));
+                    print("Presione enter para continuar. . .");
+                    lectura.nextLine();
+                }else if(opcionoperacion == 10){
+                    comment(plataformas.get(prdocele));
+                    print("Presione enter para continuar. . .");
+                    lectura.nextLine();
+                }else if(opcionoperacion == 11){
+                    print(plataformas.get(prdocele).toStr());
+                    print("Presione enter para continuar. . .");
+                    lectura.nextLine();
+                }else if(opcionoperacion == 12){
+                    if(plataformas.get(prdocele).getLogged().equals("")){
+                        authentification(plataformas.get(prdocele));
+                    }else{
+                        plataformas.get(prdocele).logout();
                     }
+                    print("Presione enter para continuar. . .");
+                    lectura.nextLine();
+                }else if(opcionoperacion == 0){
+                    runProgram = false;
                 }
             } 
         }

@@ -273,12 +273,13 @@ public class doc {
             this.getSomeAccess(username).toStr()
                     );
         }else if(username.equals("")){
-            return String.format("########## Titulo: %s##########\nPropietario:%s\nFecha de creacion: %s\nContenido: %s\n====Versiones====\n%s\n====Accesos====\n%s",
+            return String.format("########## Titulo: %s##########\nId: %d\nPropietario:%s\nFecha de creacion: %s\nContenido: %s\n====Versiones====\n%d\n====Accesos====\n%s",
                     this.geTitle(),
+                    this.getId(),
                     this.getOwner(),
                     this.getMaked().toStr(),
                     this.getText(),
-                    blockversions,
+                    this.cantVersions(),
                     blockaccesses
                     );
         }

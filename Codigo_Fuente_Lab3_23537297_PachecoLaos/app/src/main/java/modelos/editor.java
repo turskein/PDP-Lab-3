@@ -96,6 +96,12 @@ public class editor {
         return this.getUsers().size();
     }
     /**
+     * Cierra la sesion del editor
+     */
+    public void logout(){
+        this.logged = "";
+    }
+    /**
      * agrega un nuevo documento a la plataforma
      * @param title titulo del documento
      * @param maked fecha de creacion del documento
